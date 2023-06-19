@@ -1,5 +1,5 @@
 import whisper
-from config.environment import Settings
+from config.env import Settings
 
 
-model = whisper.load_model(Settings().model, in_memory=Settings().memory)
+model = whisper.load_model(Settings().model, in_memory=Settings().in_memory)

@@ -4,7 +4,10 @@ import whisper
 
 class Settings(BaseSettings):
     model: str
-    memory: bool = True
+    in_memory: bool = True
+    dev_mode: bool = False
+    port: int = 9900
+    delete_on_finish: bool = True
 
     @validator('model')
     def username_alphanumeric(cls, v):
