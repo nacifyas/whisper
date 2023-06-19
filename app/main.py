@@ -1,4 +1,5 @@
-from fastapi import FastAPI, UploadFile
+from fastapi import FastAPI, File, UploadFile
+from core.transcriptor import transcribe
 import uvicorn
 import logging
 
@@ -14,10 +15,12 @@ async def logging_setup():
         use_colors=True)
     logger.handlers[0].setFormatter(console_formatter)
 
+    
 
-@app.post("/")
-async def transcribe(files: list[UploadFile]):
-    pass
+@app.post("/asr")
+async def asr(file: UploadFile=File(...)):
+    res = await transcribe(file)
+    return res
 
 
 if __name__ == "__main__":
