@@ -1,5 +1,5 @@
 from fastapi import FastAPI, File, Query, UploadFile, status
-from fastapi.responses import RedirectResponse, Response
+from fastapi.responses import RedirectResponse, StreamingResponse
 from core.transcriptor import transcribe
 from config.env import Settings
 import uvicorn
@@ -19,23 +19,28 @@ async def logging_setup():
     logger.handlers[0].setFormatter(console_formatter)
 
 
-@app.get("/", response_class=RedirectResponse, include_in_schema=False, status_code=status.HTTP_307_TEMPORARY_REDIRECT)
+@app.get("/", response_class=RedirectResponse, include_in_schema=False, status_code=status.HTTP_308_PERMANENT_REDIRECT)
 async def index():
     return "/docs"
 
 
 @app.post("/asr", status_code=status.HTTP_200_OK)
 async def automatic_speech_recognition(
-    language: str | None = Query(default=None, enum=[*LANGUAGES.keys()]),
-    description: str = None,# = Query(default=None),
+    output_language: str | None = Query(default=None, enum=[*LANGUAGES.keys()]),
+    description: str = None,
     file: UploadFile = File(...),
-    text_only: bool = False
+    output_format : str = Query(default="txt", enum=["txt", "vtt", "srt", "tsv", "json"]),
+    word_timestamps : bool = False
 ):
-    res = await transcribe(file, language=language, initial_prompt=description, word_timestamps=not text_only)
-    if text_only:
-        return res["text"]
-    else:
-        return res
+    res = await transcribe(file, language=output_language, word_timestamps=word_timestamps, initial_prompt=description, output_format=output_format)
+    return StreamingResponse(
+        res,
+        media_type="text/plain",
+        headers={
+                'Asr-Engine': "openai/whisper",
+                'Content-Disposition': f'attachment; filename="{file.filename}.{output_format}"'
+        }
+    )
 
 
 if __name__ == "__main__":
