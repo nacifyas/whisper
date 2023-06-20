@@ -1,5 +1,4 @@
 from pydantic import BaseSettings, validator
-import os
 import whisper
 
 
