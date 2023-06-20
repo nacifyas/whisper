@@ -3,8 +3,12 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "mypackage"
-version = "0.0.1"
+name = "whisper"
+version = "0.1.0"
+authors = [
+    {name="Nassh",email="nacifyas@gmail.com"}
+]
+decription = "FastAPI powered backend for Automatic Speech Recognition using Openai Whisper"
 readme = "README.md"
 requires-python = ">=3.11"
 license = {file = "LICENCE"}
