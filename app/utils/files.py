@@ -6,8 +6,8 @@ from utils.formatters import prepend_unique_name
 
 
 async def load_file(file: UploadFile) -> str:
-    os.makedirs("audio", exist_ok=True)
-    file_route = f"audio/{prepend_unique_name(file.filename)}"
+    os.makedirs(Settings().audio_dir, exist_ok=True)
+    file_route = f"{Settings().audio_dir}/{prepend_unique_name(file.filename)}"
     async with aiofiles.open(file_route, 'wb') as out_file:
         while content := await file.read(1024):
             await out_file.write(content)
