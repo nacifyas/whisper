@@ -10,9 +10,9 @@ class Settings(BaseSettings):
     delete_on_finish: bool = True
 
     @validator('model')
-    def username_alphanumeric(cls, v):
+    def username_alphanumeric(cls, v: str):
         models = whisper.available_models()
-        if not v in models:
+        if v not in models:
             raise ValueError(f'Model not available. Possible options: {models}')
         return v
 

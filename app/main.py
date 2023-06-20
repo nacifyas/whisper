@@ -10,7 +10,7 @@ app = FastAPI()
 
 
 @app.on_event("startup")
-async def logging_setup():
+async def logging_setup() -> None:
     logger = logging.getLogger("uvicorn.access")
     console_formatter = uvicorn.logging.ColourizedFormatter(
         "{levelprefix} {asctime} {message}",
@@ -20,18 +20,18 @@ async def logging_setup():
 
 
 @app.get("/", response_class=RedirectResponse, include_in_schema=False, status_code=status.HTTP_308_PERMANENT_REDIRECT)
-async def index():
+async def index() -> str:
     return "/docs"
 
 
 @app.post("/asr", status_code=status.HTTP_200_OK)
 async def automatic_speech_recognition(
     output_language: str | None = Query(default=None, enum=[*LANGUAGES.keys()]),
-    description: str = None,
+    description: str | None = None,
     file: UploadFile = File(...),
-    output_format : str = Query(default="txt", enum=["txt", "vtt", "srt", "tsv", "json"]),
-    word_timestamps : bool = False
-):
+    output_format: str = Query(default="txt", enum=["txt", "vtt", "srt", "tsv", "json"]),
+    word_timestamps: bool = False
+) -> StreamingResponse:
     res = await transcribe(file, language=output_language, word_timestamps=word_timestamps, initial_prompt=description, output_format=output_format)
     return StreamingResponse(
         res,
