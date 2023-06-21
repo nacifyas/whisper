@@ -1,6 +1,4 @@
-from pydantic import BaseSettings, validator
-import os
-import whisper
+from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
@@ -12,7 +10,6 @@ class Settings(BaseSettings):
     model_dir: str | None = None
     device: str | None = None
     model: str
-                
 
     class Config:
         env_file = ".env"
