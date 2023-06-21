@@ -1,4 +1,4 @@
-name: bocker build
+name: docker build
 on:
   push:
     branches:
