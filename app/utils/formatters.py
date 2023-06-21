@@ -5,18 +5,19 @@ from time import localtime
 
 
 def write_result(result: dict[str, str | list], file: BinaryIO, output: str | None) -> None:
-    if output == "srt":
-        WriteSRT(ResultWriter).write_result(result, file=file)
-    elif output == "vtt":
-        WriteVTT(ResultWriter).write_result(result, file=file)
-    elif output == "tsv":
-        WriteTSV(ResultWriter).write_result(result, file=file)
-    elif output == "json":
-        WriteJSON(ResultWriter).write_result(result, file=file)
-    elif output == "txt":
-        WriteTXT(ResultWriter).write_result(result, file=file)
-    else:
-        raise ValueError("Provide a valid output option")
+    match output:
+        case "srt":
+            WriteSRT(ResultWriter).write_result(result, file=file)
+        case "vtt":
+            WriteVTT(ResultWriter).write_result(result, file=file)
+        case "tsv":
+            WriteTSV(ResultWriter).write_result(result, file=file)
+        case "json":
+            WriteJSON(ResultWriter).write_result(result, file=file)
+        case "txt":
+            WriteTXT(ResultWriter).write_result(result, file=file)
+        case _:
+            raise ValueError("Provide a valid output option")
 
 
 def prepend_unique_name(filename: str) -> str:

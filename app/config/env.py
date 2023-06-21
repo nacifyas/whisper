@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     delete_on_finish: bool = True
     audio_dir: str = "audio"
     model_dir: str | None = None
+    device: str | None = None
     model: str
                 
 
