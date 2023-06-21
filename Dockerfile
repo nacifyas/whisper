@@ -1,9 +1,8 @@
-FROM --platform=$BUILDPLATFORM python:3.11
+FROM --platform=$BUILDPLATFORM python:3.11-slim
 
 RUN export DEBIAN_FRONTEND=noninteractive \
-    && app-get -qq update \
-    && apt-get -qq install --no-install-recommends \
-    ffmpeg \
+    && app -qq update \
+    && apt -qq install --no-install-recommends ffmpeg \
     && rm -rf /var/lib/lists/*
 
 WORKDIR /whisper
