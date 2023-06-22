@@ -11,6 +11,6 @@ COPY . /whisper
 
 RUN pip install --no-cache-dir --upgrade /whisper/.
 
-EXPOSE ${PORT}
+EXPOSE 9900
 
 ENTRYPOINT [ "python3", "/whisper/app/main.py" ]

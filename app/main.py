@@ -44,4 +44,4 @@ async def automatic_speech_recognition(
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=Settings().port, reload=Settings().dev_mode)
+    uvicorn.run("main:app", host="0.0.0.0", reload=Settings().dev_mode)
