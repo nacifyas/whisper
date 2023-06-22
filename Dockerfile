@@ -11,4 +11,6 @@ COPY . /whisper
 
 RUN pip install --no-cache-dir --upgrade /whisper/.
 
-ENTRYPOINT [ "python3", "-m", "/whisper/app/main.py" ]
+EXPOSE 9900
+
+ENTRYPOINT [ "python3", "/whisper/app/main.py" ]
