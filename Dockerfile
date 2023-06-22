@@ -1,4 +1,4 @@
-FROM ${BUILDPLATFORM}python:3.11-slim
+FROM --platform=${BUILDPLATFORM} python:3.11-slim
 
 RUN export DEBIAN_FRONTEND=noninteractive \
     && apt update \
