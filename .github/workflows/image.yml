@@ -17,5 +17,5 @@ jobs:
     - name: Build the image
       run: |
         docker buildx build --push \
-          --tag nacifyas/whisper:0.1.0 \
+          --tag nacifyas/whisper:1.0.0 \
           --platform linux/amd64,linux/arm64 .
