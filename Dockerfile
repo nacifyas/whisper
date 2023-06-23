@@ -13,4 +13,4 @@ RUN pip install --no-cache-dir --upgrade /whisper/.
 
 EXPOSE 8000
 
-ENTRYPOINT [ "python3", "/whisper/app/main.py" ]
+CMD [ "python3", "/whisper/app/main.py" ]

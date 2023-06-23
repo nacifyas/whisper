@@ -5,6 +5,7 @@ from config.env import Settings
 import uvicorn
 import logging
 from whisper.tokenizer import LANGUAGES
+import whisper
 
 app = FastAPI()
 
@@ -25,14 +26,14 @@ async def index() -> str:
 
 
 @app.post("/asr", status_code=status.HTTP_200_OK)
-async def automatic_speech_recognition(
+def automatic_speech_recognition(
     output_language: str | None = Query(default=None, enum=[*LANGUAGES.keys()]),
     description: str | None = None,
     file: UploadFile = File(...),
     output_format: str = Query(default="txt", enum=["txt", "vtt", "srt", "tsv", "json"]),
     word_timestamps: bool = False
 ) -> StreamingResponse:
-    res = await transcribe(file, language=output_language, word_timestamps=word_timestamps, initial_prompt=description, output_format=output_format)
+    res = transcribe(file, language=output_language, word_timestamps=word_timestamps, initial_prompt=description, output_format=output_format)
     return StreamingResponse(
         res,
         media_type="text/plain",
@@ -41,6 +42,7 @@ async def automatic_speech_recognition(
                 'Content-Disposition': f'attachment; filename="{file.filename}.{output_format}"'
         }
     )
+
 
 
 if __name__ == "__main__":

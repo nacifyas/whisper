@@ -1,19 +1,21 @@
-import os
-import aiofiles
 from config.env import Settings
 from fastapi import UploadFile
 from utils.formatters import prepend_unique_name
-
-
-async def load_file(file: UploadFile) -> str:
-    os.makedirs(Settings().audio_dir, exist_ok=True)
-    file_route = f"{Settings().audio_dir}/{prepend_unique_name(file.filename)}"
-    async with aiofiles.open(file_route, 'wb') as out_file:
-        while content := await file.read(1024):
-            await out_file.write(content)
-    return file_route
+from pathlib import Path
+import shutil
+import os
 
 
 def clean_file(file_route: str) -> None:
     if Settings().delete_on_finish:
         os.remove(file_route)
+
+
+def load(upload_file: UploadFile) -> None:
+    destination = Path(f"{Settings().audio_dir}/{prepend_unique_name(upload_file.filename)}")
+    try:
+        with destination.open("wb") as buffer:
+            shutil.copyfileobj(upload_file.file, buffer)
+        return destination.as_posix()
+    finally:
+        upload_file.file.close()
