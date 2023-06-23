@@ -16,7 +16,6 @@ dependencies = [
     "uvicorn[standart]",
     "openai-whisper==20230314",
     "fastapi[all]<=0.98",
-    "aiofiles==23.1.0"
 ]
 
 
