@@ -6,6 +6,8 @@ import uvicorn
 import logging
 from whisper.tokenizer import LANGUAGES
 import os
+import torch
+
 
 app = FastAPI()
 
@@ -21,7 +23,7 @@ async def logging_setup() -> None:
 
 
 @app.on_event("startup")
-async def dir_setup() -> None:
+async def audio_dir_setup() -> None:
     audio_dir = Settings().audio_dir
     os.makedirs(audio_dir, exist_ok=True)
 
