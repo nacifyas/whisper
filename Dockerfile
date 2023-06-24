@@ -5,6 +5,9 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt install --no-install-recommends ffmpeg -y \
     && rm -rf /var/lib/apt/lists/*
 
+ARG TZ
+RUN echo ${TZ} > /etc/timezone
+
 WORKDIR /whisper
 
 COPY . /whisper
