@@ -5,7 +5,7 @@ from config.env import Settings
 import uvicorn
 import logging
 from whisper.tokenizer import LANGUAGES
-import whisper
+import os
 
 app = FastAPI()
 
@@ -18,6 +18,12 @@ async def logging_setup() -> None:
         style="{",
         use_colors=True)
     logger.handlers[0].setFormatter(console_formatter)
+
+
+@app.on_event("startup")
+async def dir_setup() -> None:
+    audio_dir = Settings().audio_dir
+    os.makedirs(audio_dir, exist_ok=True)
 
 
 @app.get("/", response_class=RedirectResponse, include_in_schema=False, status_code=status.HTTP_308_PERMANENT_REDIRECT)
