@@ -27,6 +27,9 @@ def transcribe(
                                                    word_timestamps=word_timestamps
                                                    )
         for segment in segment_generator:
+            
+            print(segment.text)
+
             segments.append(segment)
             text = text + segment.text
         result = {
