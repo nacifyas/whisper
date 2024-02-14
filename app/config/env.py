@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     audio_dir: str = "audio"
     model_dir: str | None = None
     device: str | None = None
-    model: str
+    model: str = "small"
 
     class Config:
         env_file = ".env"

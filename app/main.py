@@ -6,7 +6,6 @@ import uvicorn
 import logging
 from whisper.tokenizer import LANGUAGES
 import os
-import torch
 
 
 app = FastAPI()
