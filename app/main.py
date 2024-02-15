@@ -49,7 +49,7 @@ html = f"""
         const elementsList = {list(LANGUAGES.keys())};
 
         window.addEventListener('load', function() {{
-            ws = new WebSocket("ws://whisper.atomflare.net:8000/ws");
+            ws = new WebSocket("ws://whisper.atomflare.net/ws");
             ws.onmessage = function(event) {{
                 var messages = document.getElementById('messages');
                 var message = document.createElement('li');
