@@ -49,7 +49,7 @@ html = f"""
         const elementsList = {list(LANGUAGES.keys())};
 
         window.addEventListener('load', function() {{
-            ws = new WebSocket("ws://whisper.atomflare.net/ws");
+            ws = new WebSocket("ws://{Settings().host}/ws");
             ws.onmessage = function(event) {{
                 var messages = document.getElementById('messages');
                 var message = document.createElement('li');
@@ -167,8 +167,10 @@ async def websocket_endpoint(websocket: WebSocket):
                                                         language=language if language in LANGUAGES.keys() else None,
                                                         initial_prompt=initial_prompt,
                                                         )
+                await websocket.send_text("-- Starting Transcription --")
                 for segment in segment_generator:
                     await websocket.send_text(segment.text)
+                await websocket.send_text("-- End of Transcription --")
 
 
 @app.post("/upload", status_code=status.HTTP_202_ACCEPTED)

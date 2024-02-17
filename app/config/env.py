@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     model_dir: str | None = None
     device: str | None = None
     model: str = "small"
+    host: str = "127.0.0.1:8000"
 
     class Config:
         env_file = ".env"
