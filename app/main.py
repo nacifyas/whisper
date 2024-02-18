@@ -162,12 +162,12 @@ async def websocket_endpoint(websocket: WebSocket):
         print(mss)
         if "," in mss:
             file_route, language, initial_prompt = mss.split(",")
+            await websocket.send_text("-- Starting Transcription --")
             with Lock():
                 segment_generator, _ = model.transcribe(file_route,
                                                         language=language if language in LANGUAGES.keys() else None,
                                                         initial_prompt=initial_prompt,
                                                         )
-                await websocket.send_text("-- Starting Transcription --")
                 for segment in segment_generator:
                     await websocket.send_text(segment.text)
                 await websocket.send_text("-- End of Transcription --")
